@@ -1,0 +1,591 @@
+{
+  "name": "AI Email Router",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {}
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -2992,
+        -1232
+      ],
+      "id": "72281fc7-4dc0-44fa-83fb-bd842db61bc7",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "THj7ZQP0FrvOBfXx",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.snippet }}\n",
+        "categories": {
+          "categories": [
+            {
+              "category": "Task Update",
+              "description": "Emails related to updating tasks, changing status, deadlines, or task details."
+            },
+            {
+              "category": "Human Escalation",
+              "description": "Emails that require a human to intervene or handle complex/urgent cases."
+            },
+            {
+              "category": "Customer Support",
+              "description": "Emails asking for help, reporting issues, or needing support."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        -2832,
+        -1248
+      ],
+      "id": "f87d45d2-0ffd-4efa-bdfa-fbab5f4cc8b3",
+      "name": "Text Classifier1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-20250514",
+          "cachedResultName": "Claude 4 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        -2832,
+        -1024
+      ],
+      "id": "85e561a8-ecdd-481b-beaa-dcc5ee0403b3",
+      "name": "Anthropic Chat Model",
+      "credentials": {
+        "anthropicApi": {
+          "id": "YzvVv6uwDKjCfx7G",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-sonnet-4-20250514",
+          "cachedResultName": "Claude 4 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        -2224,
+        -1392
+      ],
+      "id": "d8db648e-4a3a-4705-b30c-c39322d228f4",
+      "name": "Anthropic Chat Model1",
+      "credentials": {
+        "anthropicApi": {
+          "id": "YzvVv6uwDKjCfx7G",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "team": "90182002676",
+        "space": "90187922025",
+        "folder": "90189683873",
+        "list": "901813049296",
+        "name": "={{ $json.id }}",
+        "additionalFields": {
+          "dueDate": "2025-11-15T00:00:00",
+          "status": "in progress"
+        }
+      },
+      "type": "n8n-nodes-base.clickUpTool",
+      "typeVersion": 1,
+      "position": [
+        -1776,
+        -1360
+      ],
+      "id": "a8d93080-138d-4135-ab26-b25e2cfb9502",
+      "name": "global_update_task",
+      "credentials": {
+        "clickUpApi": {
+          "id": "t4jazllsAJfZuLDd",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "team": "90182002676",
+        "space": "90187922025",
+        "folder": "90189683873",
+        "list": "901813049296",
+        "name": "={{ $json.Subject }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.clickUpTool",
+      "typeVersion": 1,
+      "position": [
+        -1952,
+        -1376
+      ],
+      "id": "91d32d1b-0e7b-4f47-9dd1-fbc33ad0a52f",
+      "name": "create_task",
+      "credentials": {
+        "clickUpApi": {
+          "id": "t4jazllsAJfZuLDd",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "team": "90182002676",
+        "space": "90187922025",
+        "folder": "90189683873",
+        "list": "901813049296",
+        "name": "=Prepare the monthly report",
+        "additionalFields": {
+          "status": "to do"
+        }
+      },
+      "type": "n8n-nodes-base.clickUpTool",
+      "typeVersion": 1,
+      "position": [
+        -2080,
+        -1376
+      ],
+      "id": "afad4bcf-b7d9-42f5-a770-bca3debb3442",
+      "name": "get_tasks",
+      "credentials": {
+        "clickUpApi": {
+          "id": "t4jazllsAJfZuLDd",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "team": "90182002676",
+        "space": "90187922025",
+        "folder": "90189685564",
+        "list": "901813051053",
+        "name": "=Prepare the monthly report",
+        "additionalFields": {
+          "status": "to do"
+        }
+      },
+      "type": "n8n-nodes-base.clickUpTool",
+      "typeVersion": 1,
+      "position": [
+        -1824,
+        -1232
+      ],
+      "id": "1ab69d64-7216-46a8-8610-a32ed26d1c86",
+      "name": "internal_get_tasks",
+      "credentials": {
+        "clickUpApi": {
+          "id": "t4jazllsAJfZuLDd",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "team": "90182002676",
+        "space": "90187922025",
+        "folder": "90189683873",
+        "list": "901813049296",
+        "name": "={{ $json.snippet }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.clickUpTool",
+      "typeVersion": 1,
+      "position": [
+        -2000,
+        -1232
+      ],
+      "id": "b77a5a03-1de6-4d32-9af1-c428659561f3",
+      "name": "create_internal_task",
+      "credentials": {
+        "clickUpApi": {
+          "id": "t4jazllsAJfZuLDd",
+          "name": "ClickUp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.snippet }}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -2000,
+        -1584
+      ],
+      "id": "e0152b45-371e-45b2-ac73-3baf1f8ccf7b",
+      "name": "Clickup AI Agent"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Gmail Trigger').item.json.From }}",
+        "subject": "={{ $('Gmail Trigger').item.json.Subject }}",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -1648,
+        -1584
+      ],
+      "id": "61178efb-1bed-40d5-94b1-1cb6b1bae266",
+      "name": "Email Update",
+      "webhookId": "de8d01cc-26e4-4fab-bfd7-3b6ec3a635d7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "THj7ZQP0FrvOBfXx",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "issakhansa.lb@gmail.com",
+        "subject": "Human Escalation Required: New Inquiry",
+        "message": "=Escalated Message:\n\nFrom: {{ $json.From }}\nSubject:{{ $json.Subject }}\nMessage Snippet: {{ $json.snippet }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -2400,
+        -1232
+      ],
+      "id": "b4a83252-cfae-4563-915b-c88cf4fbc6b3",
+      "name": "Send a message",
+      "webhookId": "aadb291a-f09e-4d74-ad72-8d968dbba66e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "THj7ZQP0FrvOBfXx",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.snippet }}",
+        "options": {
+          "systemMessage": "=You are a customer support assistant. Read the incoming email and decide:\n\nIf it includes a clear meeting request with a date/time → should_create_event = true\n\nIf it lacks info (like date/time/location) → should_create_event = false and write a reply asking for missing details.\n\nAlways return your response in this exact JSON format:\n{\n  \"subject\": \"string\",\n  \"output\": \"string reply to send by email\",\n  \"should_create_event\": true/false,\n  \"event\": {\n    \"summary\": \"string\",\n    \"start\": \"2025-11-08T19:00:00+02:00\",\n    \"end\": \"2025-11-08T19:30:00+02:00\",\n    \"location\": \"Online\"\n  }\n}\nEmail body:{{ $json.snippet }}\nSender name: {{ $node[\"Gmail Trigger\"].json.from?.name || \"there\" }}\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        -2464,
+        -1024
+      ],
+      "id": "63cae8c4-aa18-497a-a647-a6d5ec688cb0",
+      "name": "Customer Support"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {
+          "maxTokens": 512,
+          "temperature": 0.5
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -2480,
+        -752
+      ],
+      "id": "e6e3ed6c-348f-43f6-b06d-31c47a8de06e",
+      "name": "OpenAI Chat Model 1",
+      "credentials": {
+        "openAiApi": {
+          "id": "YJjwVazLMGMl9prC",
+          "name": "OpenAi account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.threadId }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -2368,
+        -832
+      ],
+      "id": "fac91354-43c1-4616-9f10-5910b9c1f95f",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "issakhansa21@gmail.com",
+          "mode": "list",
+          "cachedResultName": "issakhansa21@gmail.com"
+        },
+        "start": "={{$now}}",
+        "additionalFields": {
+          "location": "={{ $json.location || 'Online' }}",
+          "summary": "Your meeting is confirmed."
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -2160,
+        -832
+      ],
+      "id": "54c8d88f-ecfa-429e-9188-ae6950eb6612",
+      "name": "Google Calendar1",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "4Kd5PKq4lBcXuPgN",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Text Classifier1').item.json.From }}",
+        "subject": "Meeting Scheduled Successfully",
+        "message": "=Hi {{ $json.name || 'there' }},\n\nYour meeting has been scheduled successfully on Google Calendar.\n\nEvent: Your meeting is confirmed.\n\n\nStart: {{$now}} \nEnd: {{ $now.plus(1, 'hour') }}\nLocation: {{ $json.location || 'Online' }}\n\nLet us know if you have any changes.\n\nBest regards,  \nCustomer Support Team\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -2112,
+        -1024
+      ],
+      "id": "3669baa9-f450-4963-b6b7-133be5b07f81",
+      "name": "Send a message1",
+      "webhookId": "84805505-e1c9-43ef-954f-e589bea84660",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "iiUt1MeFJ6QgpGhP",
+          "name": "Gmail account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier1": {
+      "main": [
+        [
+          {
+            "node": "Clickup AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Customer Support",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Clickup AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "global_update_task": {
+      "ai_tool": [
+        [
+          {
+            "node": "Clickup AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create_task": {
+      "ai_tool": [
+        [
+          {
+            "node": "Clickup AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_tasks": {
+      "ai_tool": [
+        [
+          {
+            "node": "Clickup AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "internal_get_tasks": {
+      "ai_tool": [
+        [
+          {
+            "node": "Clickup AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create_internal_task": {
+      "ai_tool": [
+        [
+          {
+            "node": "Clickup AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clickup AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Email Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model 1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Customer Support",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Customer Support",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Customer Support",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Customer Support": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "86b2f2a3-31cb-4260-8ae3-de27aac74357",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c8eecab2852e4e42d78d2b006db15b566dd9006d1c148c75b3a0e8d3d0b21f6c"
+  },
+  "id": "53gXGtFqVbpivhhN",
+  "tags": []
+}
