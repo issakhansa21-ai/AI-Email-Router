@@ -49,7 +49,7 @@ This project is an intelligent email processing workflow built using **n8n**, in
 
 ## 🔄 How to Use
 
-1. Import the `ai-email-router-workflow.json` file into your n8n instance.
+1. Import the `AI Email Router.json` file into your n8n instance.
 2. Connect your:
    - Gmail account
    - ClickUp account
